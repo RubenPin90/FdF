@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42vienna.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/03/15 17:00:30 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/04/15 09:10:30 by yourLogin        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,14 @@
 NAME := fdf	
 HEAD := fdf.h
 CFLAGS := -Werror -Wall -Wextra
+MLX_FLAGS := -lX11 -lXext -lmlx
 DEBUG := -g
+CC := clang
 
 #FILES
 SRCDIR := src
-SRC_F := 
+SRC_F := test.c \
+	load_map.c		
 SRC := 	${addprefix ${SRCDIR}/, ${SRC_F}}
 OBJDIR := obj
 OBJ_F :=  ${SRC_F:%.c=%.o}
@@ -42,10 +45,10 @@ all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJ}
 	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} -o $@ ${OBJ} $< 
+	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${MLX_FLAGS} 
 	@echo "${GREEN}Run Code${RESET}"
 
-${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
+${OBJDIR}/%.o: ${SRCDIR}/%.c #obj_check
 	${CC} ${CFLAG} ${DEBUG} -c $< -o $@
 
 obj_check: 

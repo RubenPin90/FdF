@@ -6,7 +6,7 @@
 /*   By: rpinchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:43:17 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/03/07 17:55:09 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/11 19:05:57 by yourLogin        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stddef.h>
+# include <stdarg.h>
 # include <bsd/string.h>
 # define LIBFT_H
 

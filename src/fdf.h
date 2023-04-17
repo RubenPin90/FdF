@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42vienna.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:30:35 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/03/15 15:39:28 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/17 09:28:55 by yourLogin        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,39 @@
 **	7. fix leaks
 **		- type leaks a.out or leaks fdf in your shell
  */
+
+# ifndef FDF_H
+# define FDF_H
+#include <mlx.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include "../libft/libft.h"
+
+# define WINDOW_WIDTH 600
+# define WINDOW_HEIGHT 300
+# define MLX_ERROR 1
+
+typedef struct s_map
+{
+	char *size;
+	int width;
+	int height;
+	int z_axis;
+
+} t_map;
+
+typedef struct s_fdf
+{
+	void *mlx_ptr;
+	void *win_ptr;
+	t_map map;
+
+} t_fdf;
+
+void	load_map(int argc, char **argv, t_fdf *data);
+char	*next_line_mini(int fd);
+
+
+#endif
