@@ -3,56 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yourLogin <yourLogin@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 07:45:57 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/17 09:30:33 by yourLogin        ###   ########.fr       */
+/*   Updated: 2023/04/17 18:33:12 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void load_map(int argc, char **argv, t_fdf *data)
+void	load_map(char **argv, t_fdf *data)
 {
-	int fd;
-	
-	fd = open(argv[1], O_RDONLY);	
-	if (fd < 2)
+	int	fd;
+
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 3)
 		return ; //free_function
-//	data->map.size = next_line_mini(fd);
-	printf("fd: %d", fd);
-	printf("map: %s", data->map.size);
+	data->map.content = next_line_mini(fd);
 	close(fd);
 }
 
-char *next_line_mini(int fd)
+char	*next_line_mini(int fd)
 {
-	int count;
-	char *map;
-	char *buf;
-	char *temp;
+	char	*map;
+	char	*buf;
+	char	*temp;
 
-	map = malloc(sizeof(char)*1);
-	if(!map)
-		return(NULL); 
-	count = 1;
-	ft_printf("Loading Map...\n");
-	while (count)
+	map = ft_calloc(sizeof(char), 1);
+	buf = ft_calloc(sizeof(char), 2);
+	if (!buf || !map)
 	{
-		buf = ft_calloc(sizeof(char), 2);
-		if (!buf)
-		{
-			free(map);
-			return(NULL);
-		}
-		count = read(fd, buf, 1);
-		temp = map;
-		map = ft_strjoin(map, buf);
-		free(temp);
+		free_null(map);
+		ft_error(buf, PTR);
 	}
-
-	free(buf);
-	return(map);	
+	ft_printf("Loading Map...\n");
+	while (read(fd, buf, 1) > 0)
+	{
+		temp = map;
+		map = ft_strjoin(temp, buf);
+		if (!map)
+		{
+			free_null(temp);
+			ft_error(buf, PTR);
+		}
+		free_null(temp);
+	}
+	free_null(buf);
+	return (map);
 }
-
-

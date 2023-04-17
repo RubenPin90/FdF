@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yourLogin <yourLogin@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:56:10 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/16 21:16:12 by yourLogin        ###   ########.fr       */
+/*   Updated: 2023/04/17 14:34:52 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "fdf.h"
+
+int	close_fdf(t_fdf *data)
+{
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	return (0);
+}
 
 void	ft_error(void *arg, int type)
 {
 	char	**ar;
-	fdf	*data;
+	t_fdf	*data;
 
 	if (type == PTR)
 		free_null((char *)arg);
@@ -27,20 +32,19 @@ void	ft_error(void *arg, int type)
 	}
 	if (type == STRUCT)
 	{
-		data = (fdf *)arg;
+		data = (t_fdf *)arg;
 		free_struct(data);
 	}
 	ft_printf("Error\n");
 	exit(0);
 }
 
-void	free_struct(fdf *data)
+void	free_struct(t_fdf *data)
 {
-	if (*lst)
+	if (data)
 	{
-		free_list(&(*lst)->next);
-		free(*lst);
-		*lst = NULL;
+		free(data);
+		data = NULL;
 	}
 }
 
@@ -71,5 +75,3 @@ void	*free_null(char *ptr)
 	}
 	return (NULL);
 }
-
-void

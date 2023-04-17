@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42vienna.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/04/15 09:10:30 by yourLogin        ###   ########.fr        #
+#    Updated: 2023/04/17 13:56:29 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,12 @@ CC := clang
 #FILES
 SRCDIR := src
 SRC_F := test.c \
-	load_map.c		
+	load_map.c \
+	system_ctl.c \
+	control_key.c \
+	control_mouse.c \
+	control_util.c \
+	exit.c
 SRC := 	${addprefix ${SRCDIR}/, ${SRC_F}}
 OBJDIR := obj
 OBJ_F :=  ${SRC_F:%.c=%.o}
@@ -45,7 +50,7 @@ all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJ}
 	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${MLX_FLAGS} 
+	${CC} ${CFLAGS} -o $@ ${OBJ} $< -Lminilibx-linux ${MLX_FLAGS} 
 	@echo "${GREEN}Run Code${RESET}"
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c #obj_check

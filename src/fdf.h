@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpinchas <rpinchas@student.42vienna.com>   +#+  +:+       +#+        */
+/*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:30:35 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/04/17 09:28:55 by yourLogin        ###   ########.fr       */
+/*   Updated: 2023/04/17 15:04:14 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,38 +76,59 @@
 **		- type leaks a.out or leaks fdf in your shell
  */
 
-# ifndef FDF_H
+#ifndef FDF_H
 # define FDF_H
-#include <mlx.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include "../libft/libft.h"
+# include "../minilibx-linux/mlx.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include <X11/keysym.h>
+# include <X11/X.h>
 
-# define WINDOW_WIDTH 600
-# define WINDOW_HEIGHT 300
+# define WIN_W 600
+# define WIN_H 300
 # define MLX_ERROR 1
+# define ARRAY 2
+# define PTR 3
+# define STRUCT 4
 
 typedef struct s_map
 {
-	char *size;
-	int width;
-	int height;
-	int z_axis;
+	char	*content;
+	int		width;
+	int		height;
+	int		z_axis;
 
-} t_map;
+}	t_map;
 
 typedef struct s_fdf
 {
-	void *mlx_ptr;
-	void *win_ptr;
-	t_map map;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	t_map	map;
 
-} t_fdf;
+}	t_fdf;
 
-void	load_map(int argc, char **argv, t_fdf *data);
+void	load_map(char **argv, t_fdf *data);
 char	*next_line_mini(int fd);
+int		system_init(t_fdf *data);
+void	system_cmd(t_fdf *data);
 
+
+/*Free functions*/
+void	ft_error(void *arg, int type);
+void	free_struct(t_fdf *data);
+void	*free_ar(char **ar);
+void	*free_null(char *ptr);
+int		close_fdf(t_fdf *data);
+
+/*Key and Mouse Bindings*/
+
+int		key_press(int keysym, t_fdf *data);
+int		key_release(int keysym, t_fdf *data);
+int		mouse_press(int keysym, t_fdf *data);
+int		mouse_release(int keysym, t_fdf *data);
 
 #endif

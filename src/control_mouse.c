@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   control_mouse.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 19:06:41 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/17 15:54:09 by rpinchas         ###   ########.fr       */
+/*   Created: 2023/04/17 13:57:28 by rpinchas          #+#    #+#             */
+/*   Updated: 2023/04/17 14:28:58 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int no_event(void *data)
+int	mouse_press(int keysym, t_fdf *data)
 {
 	return (0);
 }
 
-int	main(int argc, char **argv)
+int	mouse_release(int keysym, t_fdf *data)
 {
-	t_fdf	*data;
-
-	if (argc != 2)
-		return (1);
-	data = (t_fdf *)malloc(sizeof(t_fdf));
-	if (!data)
-		return (MLX_ERROR);
-	load_map(argv, data);
-	printf("map: %s", data->map.content);
-	system_init(data);
-	system_cmd(data);
-	mlx_loop_hook(data->mlx_ptr, &no_event, data);
-	mlx_loop(data->mlx_ptr);
-	mlx_destroy_display(data->mlx_ptr);
-	free(data->mlx_ptr);
-	free_null(data->map.content);
-	free(data);
 	return (0);
 }
