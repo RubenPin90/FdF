@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:30:35 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/04/17 15:04:14 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/19 23:13:40 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@
 typedef struct s_map
 {
 	char	*content;
+	int		**matrix;
 	int		width;
 	int		height;
 	int		z_axis;
@@ -112,13 +113,14 @@ typedef struct s_fdf
 }	t_fdf;
 
 void	load_map(char **argv, t_fdf *data);
-char	*next_line_mini(int fd);
+char	*next_line_mini(int fd, t_fdf *data);
+void	def_map(t_fdf *data);
+int		getwidth(char *temp);
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
 
-
 /*Free functions*/
-void	ft_error(void *arg, int type);
+void	ft_error(void *arg, int type, t_fdf *data);
 void	free_struct(t_fdf *data);
 void	*free_ar(char **ar);
 void	*free_null(char *ptr);

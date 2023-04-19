@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:56:10 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/17 14:34:52 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/19 23:02:46 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ int	close_fdf(t_fdf *data)
 	return (0);
 }
 
-void	ft_error(void *arg, int type)
+void	ft_error(void *arg, int type, t_fdf *data)
 {
 	char	**ar;
-	t_fdf	*data;
 
 	if (type == PTR)
 		free_null((char *)arg);
@@ -30,11 +29,7 @@ void	ft_error(void *arg, int type)
 		ar = (char **)arg;
 		free_ar(ar);
 	}
-	if (type == STRUCT)
-	{
-		data = (t_fdf *)arg;
-		free_struct(data);
-	}
+	free_struct(data);
 	ft_printf("Error\n");
 	exit(0);
 }
@@ -54,7 +49,6 @@ void	*free_ar(char **ar)
 
 	if (!ar)
 		return (NULL);
-
 	i = 0;
 	while (ar[i])
 	{
