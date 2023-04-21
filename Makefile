@@ -43,18 +43,29 @@ BLUE := \033[34m
 YELLOW := \033[33m
 RED := \033[31m
 RESET := \033[0m
+# Define the directories for the header files and libraries
+INC_DIR =
 
+# Define the name of the library to link against
+LIBS = -lmlx
+
+# Check if mlx.h is installed and set the appropriate include flag
+ifeq ($(shell test -f /usr/include/X11/mlx.h && echo 1),1)
+	INC_DIR = -I/usr/include/X11
+else
+	INC_DIR = -I../minilibx-linux
+endif
 
 #RULES
 all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJ}
 	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} -o $@ ${OBJ} $< -Lminilibx-linux ${MLX_FLAGS} 
+	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${LIBS} ${INC_DIR} ${MLX_FLAGS} 
 	@echo "${GREEN}Run Code${RESET}"
 
-${OBJDIR}/%.o: ${SRCDIR}/%.c #obj_check
-	${CC} ${CFLAG} ${DEBUG} -c $< -o $@
+${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
+	${CC} ${CFLAG} ${DEBUG} ${INC_DIR} -c $< -o $@
 
 obj_check: 
 	@echo "${BLUE}Making object files...${RESET}"

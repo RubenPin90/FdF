@@ -22,6 +22,7 @@ void	load_map(char **argv, t_fdf *data)
 	data->map.content = next_line_mini(fd, data);
 	close(fd);
 	def_map(data);
+	get_matrix(data);
 }
 
 char	*next_line_mini(int fd, t_fdf *data)
@@ -55,9 +56,9 @@ char	*next_line_mini(int fd, t_fdf *data)
 
 	/*
 	check content if its valid
-	split content according to newline
 	count \n and save count in height
-	check each string and save width
+	save width with wordcount-function getwidth
+	initialising **int with get_matrix
 	*/
 void	def_map(t_fdf *data)
 {
@@ -70,7 +71,7 @@ void	def_map(t_fdf *data)
 	height = 0;
 	while (temp[i])
 	{
-		if (!ft_isdigit(temp[i]) && temp[i] != ' ' && \
+		if (!ft_isalnum(temp[i]) && temp[i] != ' ' && \
 		temp[i] != '-' && temp[i] != '\n')
 			ft_error(temp, PTR, data);
 		if (temp[i] == '\n')
@@ -84,16 +85,51 @@ void	def_map(t_fdf *data)
 int	getwidth(char *temp)
 {
 	int		i;
-	int 	width;
-	char	**mapstr;
+	int		width;
 
 	i = 0;
 	width = 0;
-	mapstr = ft_split(temp, '\n');
-	while (mapstr[i])
+	while (temp[i] && temp[i] != '\n')
 	{
-		ft_printf("%s\n", mapstr[i]);
-		i++;
+		while (temp[i] == ' ' && temp[i])
+			i++;
+		if (temp[i] != ' ' && temp[i] != '\n' && temp[i])
+			width++;
+		while (temp[i] != ' ' && temp[i])
+		{	
+			if (temp[i] == '\n')
+				break ;
+			i++;
+		}
 	}
 	return (width);
+}
+
+void	get_matrix(t_fdf *data)
+{
+	int	i;
+	char	**matrix;
+
+	matrix = ft_calloc(sizeof(int), data->map.height);
+	if (!matrix)
+		ft_error(data->map.content, PTR, data);
+	i = 0;
+	while (i <= width)
+	{
+		matrix[i] = ft_calloc(sizeof(int), data->map.width);
+		if (!matrix[i])
+		{
+			while (--i >= 0)
+				free(matrix[i]);
+			free(matrix);
+			ft_error(data->map.content, PTR, data);
+		}
+		i++;
+	}
+	matrix = ft_split(data->map.content, '\n');
+	while (i++)
+	{
+		
+	}
+	return (word);
 }
