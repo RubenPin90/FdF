@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 07:45:57 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/19 23:21:29 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:06:26 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,21 @@ void	def_map(t_fdf *data)
 		if (!ft_isalnum(temp[i]) && temp[i] != ' ' && \
 		temp[i] != '-' && temp[i] != '\n')
 			ft_error(temp, PTR, data);
-		if (temp[i] == '\n')
-			height++;
-		i++;
 	}
-	data->map.width = getwidth(temp);
+	data->lines = ft_split(temp, '\n');
+	if (!data->lines)
+		ft_error(temp, PTR, data);
+	while (data->lines[height])
+		height++;
+	data->map.width = getwidth(temp, data);
 	data->map.height = height;
 }
 
-int	getwidth(char *temp)
+int	getwidth(char *temp, t_fdf *data)
 {
 	int		i;
 	int		width;
-
+	
 	i = 0;
 	width = 0;
 	while (temp[i] && temp[i] != '\n')
@@ -102,21 +104,34 @@ int	getwidth(char *temp)
 			i++;
 		}
 	}
+	i = 0;
+	while (data->lines[i])
+	{
+		data->points = ft_split(data->lines[i], ' ');
+		if (!data->points)
+		{
+			free_arr(data->lines);
+			free_error(temp, PTR, data);
+		}
+		while (data->points[width])
+			width++;
+		i++;
+	}
 	return (width);
 }
 
 void	get_matrix(t_fdf *data)
 {
-	int	i;
+	int		i;
 	char	**matrix;
 
-	matrix = ft_calloc(sizeof(int), data->map.height);
+	matrix = ft_calloc(sizeof(char *), data->map.height);
 	if (!matrix)
 		ft_error(data->map.content, PTR, data);
 	i = 0;
 	while (i <= width)
 	{
-		matrix[i] = ft_calloc(sizeof(int), data->map.width);
+		matrix[i] = ft_calloc(sizeof(char), data->map.width);
 		if (!matrix[i])
 		{
 			while (--i >= 0)

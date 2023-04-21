@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:30:35 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/04/19 23:13:40 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:12:24 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ typedef struct s_fdf
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	char	**lines;
+	char	***points;
 	t_map	map;
 
 }	t_fdf;
@@ -116,7 +118,7 @@ typedef struct s_fdf
 void	load_map(char **argv, t_fdf *data);
 char	*next_line_mini(int fd, t_fdf *data);
 void	def_map(t_fdf *data);
-int		getwidth(char *temp);
+int		getwidth(char *temp, t_fdf *data);
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
 
