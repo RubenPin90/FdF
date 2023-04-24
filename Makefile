@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpinchas <rpinchas@student.42vienna.com>   +#+  +:+       +#+         #
+#    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/04/17 13:56:29 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/04/24 16:33:40 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,28 +44,30 @@ YELLOW := \033[33m
 RED := \033[31m
 RESET := \033[0m
 # Define the directories for the header files and libraries
-INC_DIR =
-
-# Define the name of the library to link against
-LIBS = -lmlx
+HEADER_DIR =
+LIB_DIR =
 
 # Check if mlx.h is installed and set the appropriate include flag
 ifeq ($(shell test -f /usr/include/X11/mlx.h && echo 1),1)
-	INC_DIR = -I/usr/include/X11
+	HEADER_DIR = /usr/include/X11
+	LIB_DIR = /usr/lib/X11
 else
-	INC_DIR = -I../minilibx-linux
+	HEADER_DIR = ./minilibx-linux
+	LIB_DIR = ./minilibx-linux
 endif
+HEAD = -I${HEADER_DIR}
+LIB = -L${LIB_DIR}
 
 #RULES
 all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJ}
 	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${LIBS} ${INC_DIR} ${MLX_FLAGS} 
+	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${HEAD} ${LIB} ${MLX_FLAGS} 
 	@echo "${GREEN}Run Code${RESET}"
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
-	${CC} ${CFLAG} ${DEBUG} ${INC_DIR} -c $< -o $@
+	${CC} ${CFLAG} ${DEBUG} ${HEAD} -c $< -o $@
 
 obj_check: 
 	@echo "${BLUE}Making object files...${RESET}"

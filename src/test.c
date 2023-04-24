@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 19:06:41 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/19 19:55:14 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:12:20 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,21 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (MLX_ERROR);
 	load_map(argv, data);
-	printf("map: %s", data->map.content);
-	printf("map: %d", data->map.width);
-	printf("map: %d", data->map.height);
+	ft_printf("map: %d", data->width);
+	ft_printf("map: %d\n", data->height);
+	for(int i = 0; i <= data->map_size; i++)
+	{
+		ft_printf("x_axis: %d\t", data->map[i].x_axis);
+		ft_printf("y_axis: %d\t", data->map[i].y_axis);
+		ft_printf("z_axis: %d\n", data->map[i].z_axis);
+	}
 	system_init(data);
 	system_cmd(data);
 	mlx_loop_hook(data->mlx_ptr, &no_event, data);
 	mlx_loop(data->mlx_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
-	free_null(data->map.content);
-	free(data);
+	free_null(data->content);
+	free_struct(data);
 	return (0);
 }

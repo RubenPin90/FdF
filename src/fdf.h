@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:30:35 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/04/21 19:12:24 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:27:40y rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@
 #ifndef FDF_H
 # define FDF_H
 # include <mlx.h>
-//# include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -97,32 +96,37 @@
 
 typedef struct s_map
 {
-	char	*content;
-	int		**matrix;
-	int		width;
-	int		height;
+	int		x_axis;
+	int		y_axis;
 	int		z_axis;
-
+	char	*color;	
 }	t_map;
 
 typedef struct s_fdf
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	int		width;
+	int		height;
+	int		map_size;
+	char	*content;
 	char	**lines;
 	char	***points;
-	t_map	map;
-
+	t_map	*map;
 }	t_fdf;
 
+/*Loading Map*/
 void	load_map(char **argv, t_fdf *data);
 char	*next_line_mini(int fd, t_fdf *data);
 void	def_map(t_fdf *data);
 int		getwidth(t_fdf *data);
+void	get_matrix(t_fdf *data);
+
+/*System Control*/
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
 
-/*Free functions*/
+/*Free Functions*/
 void	ft_error(void *arg, int type, t_fdf *data);
 void	free_struct(t_fdf *data);
 void	*free_ar(char **ar);
@@ -130,7 +134,6 @@ void	*free_null(char *ptr);
 int		close_fdf(t_fdf *data);
 
 /*Key and Mouse Bindings*/
-
 int		key_press(int keysym, t_fdf *data);
 int		key_release(int keysym, t_fdf *data);
 int		mouse_press(int keysym, t_fdf *data);

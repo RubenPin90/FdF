@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:56:10 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/19 23:02:46 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:10:19 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,21 @@ void	ft_error(void *arg, int type, t_fdf *data)
 
 void	free_struct(t_fdf *data)
 {
+	int	i;
+
+	i = 0;
 	if (data->lines)
 		free_ar(data->lines);
 	if (data->points)
 	{
-		free_ar(*data->points);
-		free_null((char *)data->points);
+		while (data->points[i])
+			free_ar(data->points[i++]);
+		free(data->points);
+	}
+	if (data->map)
+	{
+		free(data->map);
+		data->map = NULL;
 	}
 	if (data)
 	{
