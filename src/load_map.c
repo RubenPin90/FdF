@@ -22,7 +22,7 @@ void	load_map(char **argv, t_fdf *data)
 	data->map.content = next_line_mini(fd, data);
 	close(fd);
 	def_map(data);
-	get_matrix(data);
+	//get_matrix(data);
 }
 
 char	*next_line_mini(int fd, t_fdf *data)
@@ -74,56 +74,50 @@ void	def_map(t_fdf *data)
 		if (!ft_isalnum(temp[i]) && temp[i] != ' ' && \
 		temp[i] != '-' && temp[i] != '\n')
 			ft_error(temp, PTR, data);
+		i++;
 	}
 	data->lines = ft_split(temp, '\n');
 	if (!data->lines)
 		ft_error(temp, PTR, data);
 	while (data->lines[height])
 		height++;
-	data->map.width = getwidth(temp, data);
+	ft_printf("height: %d\n", height);
+	data->map.width = getwidth(data);
 	data->map.height = height;
+	ft_printf("width: %d\n", data->map.width);
 }
 
-int	getwidth(char *temp, t_fdf *data)
+int	getwidth(t_fdf *data)
 {
 	int		i;
 	int		width;
-	
+	int		temp;
+
+	data->points = ft_calloc(sizeof(char **), (data->map.height + 1));
+	if (!data->points)
+		ft_error(data->map.content, PTR, data);
 	i = 0;
 	width = 0;
-	while (temp[i] && temp[i] != '\n')
-	{
-		while (temp[i] == ' ' && temp[i])
-			i++;
-		if (temp[i] != ' ' && temp[i] != '\n' && temp[i])
-			width++;
-		while (temp[i] != ' ' && temp[i])
-		{	
-			if (temp[i] == '\n')
-				break ;
-			i++;
-		}
-	}
-	i = 0;
+	temp = 0;
 	while (data->lines[i])
-	{
-		data->points = ft_split(data->lines[i], ' ');
-		if (!data->points)
-		{
-			free_arr(data->lines);
-			free_error(temp, PTR, data);
-		}
-		while (data->points[width])
-			width++;
+	{	
+		data->points[i] = ft_split(data->lines[i], ' ');
+		if (!data->points[i])
+			ft_error(data->map.content, PTR, data);
+		while (data->points[i][width])
+				width++;
+		if (temp != 0 && temp != width)
+			ft_error(data->map.content, PTR, data);
+		temp = width;
 		i++;
 	}
 	return (width);
 }
-
+/*
 void	get_matrix(t_fdf *data)
 {
 	int		i;
-	char	**matrix;
+	t_cord	**matrix;
 
 	matrix = ft_calloc(sizeof(char *), data->map.height);
 	if (!matrix)
@@ -144,7 +138,7 @@ void	get_matrix(t_fdf *data)
 	matrix = ft_split(data->map.content, '\n');
 	while (i++)
 	{
-		
+	i = 0;
 	}
 	return (word);
-}
+}*/

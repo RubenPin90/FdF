@@ -118,7 +118,7 @@ typedef struct s_fdf
 void	load_map(char **argv, t_fdf *data);
 char	*next_line_mini(int fd, t_fdf *data);
 void	def_map(t_fdf *data);
-int		getwidth(char *temp, t_fdf *data);
+int		getwidth(t_fdf *data);
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
 

@@ -36,6 +36,13 @@ void	ft_error(void *arg, int type, t_fdf *data)
 
 void	free_struct(t_fdf *data)
 {
+	if (data->lines)
+		free_ar(data->lines);
+	if (data->points)
+	{
+		free_ar(*data->points);
+		free_null((char *)data->points);
+	}
 	if (data)
 	{
 		free(data);
