@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/04/24 16:33:40 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/04/25 16:56:01 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCDIR := src
 SRC_F := test.c \
 	load_map.c \
 	system_ctl.c \
+	draw_map.c \
 	control_key.c \
 	control_mouse.c \
 	control_util.c \

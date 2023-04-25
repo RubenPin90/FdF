@@ -6,12 +6,13 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 07:45:57 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/24 19:54:14 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:33:09 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/*Load File and */
 void	load_map(char **argv, t_fdf *data)
 {
 	int	fd;

@@ -87,8 +87,8 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 
-# define WIN_W 600
-# define WIN_H 300
+# define WIN_W 1280
+# define WIN_H 720
 # define MLX_ERROR 1
 # define ARRAY 2
 # define PTR 3
@@ -125,12 +125,14 @@ void	get_matrix(t_fdf *data);
 /*System Control*/
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
+t_fdf	*init_fdf(t_fdf *data);
+int		no_event(void *data);
 
 /*Free Functions*/
 void	ft_error(void *arg, int type, t_fdf *data);
 void	free_struct(t_fdf *data);
 void	*free_ar(char **ar);
-void	*free_null(char *ptr);
+void	*free_null(void *ptr);
 int		close_fdf(t_fdf *data);
 
 /*Key and Mouse Bindings*/
@@ -139,4 +141,5 @@ int		key_release(int keysym, t_fdf *data);
 int		mouse_press(int keysym, t_fdf *data);
 int		mouse_release(int keysym, t_fdf *data);
 
+int		draw_map(t_fdf *data);
 #endif
