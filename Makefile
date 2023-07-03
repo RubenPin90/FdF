@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
+#    By: rubsky <rubsky@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/04/25 16:56:01 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/06/30 15:02:16 by rubsky           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,11 @@ CC := clang
 
 #FILES
 SRCDIR := src
-SRC_F := test.c \
+SRC_F := main.c \
 	load_map.c \
 	system_ctl.c \
 	draw_map.c \
+	draw_map2.c \
 	control_key.c \
 	control_mouse.c \
 	control_util.c \
@@ -56,7 +57,7 @@ else
 	HEADER_DIR = ./minilibx-linux
 	LIB_DIR = ./minilibx-linux
 endif
-HEAD = -I${HEADER_DIR}
+LHEAD = -I${HEADER_DIR}
 LIB = -L${LIB_DIR}
 
 #RULES
@@ -64,11 +65,11 @@ all: ${NAME}
 
 ${NAME}: ${LIBFT} ${OBJ}
 	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${HEAD} ${LIB} ${MLX_FLAGS} 
+	${CC} ${CFLAGS} -o $@ ${OBJ} $< ${HEAD} ${LIB} ${MLX_FLAGS} -lm 
 	@echo "${GREEN}Run Code${RESET}"
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
-	${CC} ${CFLAG} ${DEBUG} ${HEAD} -c $< -o $@
+	${CC} ${CFLAG} ${DEBUG} ${LHEAD} -c $< -o $@
 
 obj_check: 
 	@echo "${BLUE}Making object files...${RESET}"

@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rubsky <rubsky@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 07:45:57 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/04/25 18:33:09 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:36:21 by rubsky           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*Load File and */
+/*
+Open File, read file descriptor and save data in data->content. 
+Get width and heigth with def_map
+and define all coordinates with x, y, z with get_matirx
+*/
 void	load_map(char **argv, t_fdf *data)
 {
 	int	fd;
@@ -55,12 +59,12 @@ char	*next_line_mini(int fd, t_fdf *data)
 	return (map);
 }
 
-	/*
-	check content if its valid
-	split content according to \n and save in t_map
-	get height and width
-	get ***pointer of all numbers
-	*/
+/*
+check content if its valid
+split content according to \n and save in t_map
+get height and width
+get ***pointer of all numbers
+*/
 void	def_map(t_fdf *data)
 {
 	int		i;
@@ -130,9 +134,9 @@ void	get_matrix(t_fdf *data)
 		x = 0;
 		while (data->points[y][x])
 		{
-			data->map[i].z_axis = ft_atoi(data->points[y][x++]);
-			data->map[i].y_axis = y;
-			data->map[i].x_axis = x;
+			data->map[i].z = ft_atoi(data->points[y][x++]);
+			data->map[i].y = y;
+			data->map[i].x = x;
 			//data->map[i].color = if_color(data->points[y][x]);
 			i++;
 		}

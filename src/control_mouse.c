@@ -12,12 +12,27 @@
 
 #include "fdf.h"
 
-int	mouse_press(int keysym, t_fdf *data)
+int	mouse_press(int button, t_fdf *data)
 {
-	return (0);
-}
+	// int test;
 
-int	mouse_release(int keysym, t_fdf *data)
-{
+	// test = 0;
+	// if (button == 1)
+	// {
+	// 	test *= 1.2;
+	// 	printf("%d", test);
+	// }
+	// if (button == 2 && test > 1)
+	// {
+	//  	test /= 1.2;
+	// 	printf("%d", test);
+	// }
+	// if (button == 4)
+	// 	printf("scrolldown");
+	// if (button == 5)
+	// 	printf("scrolldown");
+	// // if (button == Button5 && test > 0)
+	// // 	test -= 1;
+	// draw_map(data, data->map);
 	return (0);
 }

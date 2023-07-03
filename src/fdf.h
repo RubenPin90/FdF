@@ -10,72 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** _______________ program structure ________________
-** 1. read file
-**		- get height (how many lines) of text
-**		- get width (how many numbers in line)
-**		- allocate memory for **int by using width and height 
-**		- read file and write number into **int matrix by using
-**				+ ft_split()
-**				+ atoi()
-** _______________
-** 2. drawing line function (google Bresenham algorithm)
-**		- find by how much we need to increase x and by how much we need to increase y
-**			by using float. Example:
-**				x = 2; x1 = 4;
-**				y = 2; y1 = 6;
-**				steps for x: 2
-**				steps for y: 4
-**				that means that y should grow 2 times faster than x
-**				ewery loop step: y += 1 and x += 0.5
-**				after 4 steps x and y will be equal with x1, y1
-**
-**					real x:y		x:y     pixels				
-**			start:		2.0 : 2.0		2:2        .
-**			step1:		2.5 : 3.0		2:3        .
-**			step2:		3.0 : 4.0		3:4         .
-**			step3:		3.5 : 5.0		3:5         .
-**			step4:		4.0 : 6.0		4:6          .
-**
-**				that works because (float)2.5 turns to (int)2 in func. mlx_pixel_put()
-**	--------------
-**	3. function which draws lines beetwen every dot
-**		- examle:
-**				0->		0->		0->		0
-**				|		|		|		|
-**				
-**				0->		10->            10->            0
-**				|		|		|		|
-**				
-**				0->		10->            10->            0
-**				|		|		|		|
-**				
-**				0->		0->		0->		0
-**			'->' and '|'are lines between dots 
-**			every dot has two lines (right and down):	0->
-**                                                                      |
-**	----------------
-**	4. adding 3D
-**		- change coordinates by using isometric formulas:
-**			x` = (x - y) * cos(angle)
-**			y` = (x + y) * sin(angle) - z
-**		- x` and y` are coordintes in 3D format (default angle 0.8)
-**	----------------
-**	5. adding donuses (move, rotation, zoom)
-**		- when you press button on keyboard the func. mlx_key_hook(win_ptr, deal_key, NULL);
-**			call the func. deal_key.
-**		- In the deal key func. you have to change some parametrs, clear the window with
-**			mlx_clear_window(mlx_ptr, win_ptr); and redraw the picture
-**	----------------
-**	6. error handling
-**		- check if argc == 2
-**		- check if file exists: if ((fd = open(file_name, O_RDONLY) > 0))
-**	----------------
-**	7. fix leaks
-**		- type leaks a.out or leaks fdf in your shell
- */
-
 #ifndef FDF_H
 # define FDF_H
 # include <mlx.h>
@@ -83,6 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <math.h>
 # include "../libft/libft.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
@@ -93,19 +28,51 @@
 # define ARRAY 2
 # define PTR 3
 # define STRUCT 4
+# define X 0
+# define Y 1
+# define Z 2
+
+/*COLORS*/
+# define WHITE 0xFFFFFF
+# define RED 0xe80c0c
+# define FONT_CLR 0xEEEEEE
+# define MENU_CLR 0x1A1A1A
+# define BACKGROUND 0x0B0B0B
+
+/*MENU*/
+# define M_WIDTH 160
+# define FDFINFO_BOX 40
+# define MAPINFO_BOX 200
+# define CTL_BOX	400
+# define M_TAB   30
+# define L_SIZE  30
 
 typedef struct s_map
 {
-	int		x_axis;
-	int		y_axis;
-	int		z_axis;
-	char	*color;	
+	float	x;
+	float	y;
+	float	z;
+	float	new[3];
+	int		color;	
 }	t_map;
 
 typedef struct s_fdf
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	void	*img;
+	char	*buf;
+	int		bpp;
+	int		lsize;
+	int		endian;
+	float	scale;
+	double	angle;
+	int		x_offset;
+	int		y_offset;
+	float	z_offset;
+	int		check;
+	float	tmpx;
+	float	tmpy;
 	int		width;
 	int		height;
 	int		map_size;
@@ -138,8 +105,15 @@ int		close_fdf(t_fdf *data);
 /*Key and Mouse Bindings*/
 int		key_press(int keysym, t_fdf *data);
 int		key_release(int keysym, t_fdf *data);
-int		mouse_press(int keysym, t_fdf *data);
-int		mouse_release(int keysym, t_fdf *data);
+int		mouse_press(int button, t_fdf *data);
 
-int		draw_map(t_fdf *data);
+int		draw_map(t_fdf *data, t_map *map);
+void	isometric(t_map *p, t_fdf *data);
+void	pixel_to_img(t_fdf *data, t_map *map);
+void	draw_line(t_fdf *data, t_map n, t_map m);
+int		render(t_fdf *data);
+int		my_pix_put(t_fdf *data, int x, int y, int z);
+
+void	print_menu(t_fdf *data);
+
 #endif
