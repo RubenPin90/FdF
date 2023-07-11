@@ -28,6 +28,9 @@ void	menu_data(t_fdf *data)
 	line += L_SIZE;
 	str_put(data, M_TAB, line, "Zoom:");
 	nbr_put(data, M_TAB + 80, line, data->scale);
+	line += L_SIZE;
+	str_put(data, M_TAB, line, "z-offset");
+	nbr_put(data, M_TAB + 80, line, data->z_offset);
 }
 
 void	map_info(t_fdf *data)

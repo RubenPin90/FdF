@@ -36,8 +36,6 @@ void	draw_line(t_fdf *data, t_map p1, t_map p2)
 	float		x_diff;
 	float		y_diff;
 
-	// isometric(&p1, data);
-	// isometric(&p2, data);
 	x_diff = p2.new[X] - p1.new[X];
 	y_diff = p2.new[Y] - p1.new[Y];
 	max = ft_max(fabs(x_diff), fabs(y_diff));

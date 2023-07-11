@@ -44,10 +44,13 @@ int	key_press(int keysym, t_fdf *data)
 
 int	key_release(int keysym, t_fdf *data)
 {
-	if (keysym == XK_a)
+	if (keysym == XK_a && data->z_offset < 10)
 		data->z_offset *= 1.2;
-	if (keysym == XK_s)
+	if (keysym == XK_s && data->z_offset > 1)
+	{
 		data->z_offset /= 1.2;
+
+	}
 	draw_map(data, data->dots);
 	return (0);
 }
