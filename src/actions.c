@@ -33,7 +33,6 @@ void	motion(t_fdf *data, t_map *map)
 	int		i;
 
 	i = 0;
-
 	while (i < data->map_size)
 	{
 		map[i].new[X] = map[i].new[X] * data->scale + data->x_offset;
@@ -44,13 +43,13 @@ void	motion(t_fdf *data, t_map *map)
 
 void	isometric2(t_fdf *data, t_map *p)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->map_size)
 	{
 		p[i].new[Z] = p[i].z / data->z_offset;
-		p[i].new[X] = (p[i].x - p[i].y) *cos(data->angle);
+		p[i].new[X] = (p[i].x - p[i].y) * cos(data->angle);
 		p[i].new[Y] = (p[i].x + p[i].y) * sin(data->angle) - p[i].new[Z];
 		i++;
 	}

@@ -66,23 +66,22 @@ void	get_matrix(t_fdf *data, t_load *tools)
 	data->dots = ft_calloc(sizeof(t_map), data->map_size);
 	if (!data->dots)
 		ft_error(ALLOC_ERR, data);
-	i = 0;
+	i = -1;
 	start = 0;
 	tmp = NULL;
-	while (tools->map[i])
+	while (tools->map[++i])
 	{
 		if (tools->map[i] == '\n')
 		{
 			tmp = ft_substr(tools->map, start, i - start);
 			start = i + 1;
-			if(get_points(data->dots, tmp))
+			if (get_points(data->dots, tmp))
 			{
 				free(tmp);
 				ft_error(SPLIT_ERR, data);
 			}
 			free(tmp);
 		}
-		i++;
 	}
 }
 
