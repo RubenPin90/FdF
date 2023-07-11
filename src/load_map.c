@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rubsky <rubsky@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 07:45:57 by yourLogin         #+#    #+#             */
-/*   Updated: 2023/06/30 15:36:21 by rubsky           ###   ########.fr       */
+/*   Created: 2023/07/11 03:02:25 by rpinchas          #+#    #+#             */
+/*   Updated: 2023/07/11 03:02:30 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*
-Open File, read file descriptor and save data in data->content. 
-Get width and heigth with def_map
-and define all coordinates with x, y, z with get_matirx
+Opens File, reads file descriptor and saves data in data->tools.map. 
+Checks validity of map and gets size with def_map.
+Defines all coordinates with x, y, z with get_matrix
 */
 void	load_map(char **argv, t_fdf *data)
 {
@@ -23,123 +23,82 @@ void	load_map(char **argv, t_fdf *data)
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 3)
-		ft_error(NULL, MLX_ERROR, data);
-	data->content = next_line_mini(fd, data);
+		ft_error(READ_ERR, data);
+	next_line_mini(fd, data, &data->tools);
 	close(fd);
-	def_map(data);
-	get_matrix(data);
+	def_map(data, data->tools.map);
+	get_matrix(data, &data->tools);
 }
 
-char	*next_line_mini(int fd, t_fdf *data)
+void	next_line_mini(int fd, t_fdf *data, t_load *tools)
 {
-	char	*map;
-	char	*buf;
-	char	*temp;
+	char	*tmp;
+	int		res;
 
-	map = ft_calloc(sizeof(char), 1);
-	buf = ft_calloc(sizeof(char), 2);
-	if (!buf || !map)
+	tools->buf = ft_calloc(sizeof(char), READ_SIZE + 1);
+	if (!tools->buf)
+		ft_error(ALLOC_ERR, data);
+	tools->map = ft_strdup("");
+	res = 1;
+	while (res > 0)
 	{
-		free_null(map);
-		ft_error(buf, PTR, data);
-	}
-	ft_printf("Loading Map...\n");
-	while (read(fd, buf, 1) > 0)
-	{
-		temp = map;
-		map = ft_strjoin(temp, buf);
-		if (!map)
+		res = read(fd, tools->buf, READ_SIZE);
+		tmp = tools->map;
+		tools->map = ft_strnjoin(tmp, tools->buf, res);
+		if (!tools->map)
 		{
-			free_null(temp);
-			ft_error(buf, PTR, data);
+			free_null(tmp);
+			free_null(tools->buf);
+			ft_error(ERR, data);
 		}
-		free_null(temp);
+		free_null(tmp);
 	}
-	free_null(buf);
-	return (map);
+	free_null(tools->buf);
 }
 
-/*
-check content if its valid
-split content according to \n and save in t_map
-get height and width
-get ***pointer of all numbers
-*/
-void	def_map(t_fdf *data)
+void	get_matrix(t_fdf *data, t_load *tools)
 {
 	int		i;
-	int		height;
-	char	*temp;
+	int		start;
+	char	*tmp;
 
-	temp = data->content;
+	data->map_size = tools->height * tools->width;
+	data->dots = ft_calloc(sizeof(t_map), data->map_size);
+	if (!data->dots)
+		ft_error(ALLOC_ERR, data);
 	i = 0;
-	height = 0;
-	while (temp[i])
+	start = 0;
+	tmp = NULL;
+	while (tools->map[i])
 	{
-		if (!ft_isalnum(temp[i]) && temp[i] != ' ' && \
-		temp[i] != '-' && temp[i] != '\n')
-			ft_error(temp, PTR, data);
-		i++;
-	}
-	data->lines = ft_split(temp, '\n');
-	if (!data->lines)
-		ft_error(temp, PTR, data);
-	while (data->lines[height])
-		height++;
-	data->height = height;
-	data->width = getwidth(data);
-}
-
-int	getwidth(t_fdf *data)
-{
-	int		i;
-	int		width;
-	int		temp;
-
-	width = 0;
-	temp = 0;
-	data->points = ft_calloc(sizeof(char *), (data->height + 1));
-	if (!data->points)
-		ft_error(data->content, PTR, data);
-	i = 0;
-	while (data->lines[i])
-	{	
-		data->points[i] = ft_split(data->lines[i], ' ');
-		if (!data->points[i])
-			ft_error(data->content, PTR, data);
-		while (data->points[i][width])
-			width++;
-		if (temp != 0 && temp != width)
-			ft_error(data->content, PTR, data);
-		temp = width;
-		i++;
-	}
-	return (width);
-}
-
-void	get_matrix(t_fdf *data)
-{
-	int	y;
-	int	x;
-	int	i;
-
-	data->map_size = data->height * data->width;
-	data->map = ft_calloc(sizeof(t_map), data->map_size + 1);
-	if (!data->map)
-		ft_error(data->content, PTR, data);
-	y = 0;
-	i = 0;
-	while (data->points[y])
-	{
-		x = 0;
-		while (data->points[y][x])
+		if (tools->map[i] == '\n')
 		{
-			data->map[i].z = ft_atoi(data->points[y][x++]);
-			data->map[i].y = y;
-			data->map[i].x = x;
-			//data->map[i].color = if_color(data->points[y][x]);
-			i++;
+			tmp = ft_substr(tools->map, start, i - start);
+			start = i + 1;
+			get_points(data->dots, tmp);
+			free(tmp);
 		}
-		y++;
-	}	
+		i++;
+	}
+}
+
+void	get_points(t_map *dots, char *line)
+{
+	int			x;
+	char		**coord;
+	static int	index = 0;
+	static int	y = -1;
+
+	y++;
+	x = 0;
+	coord = ft_split(line, ' ');
+	while (coord[x])
+	{
+		dots[index].x = x;
+		dots[index].z = ft_atoi(coord[x]);
+		dots[index].y = y;
+		index++;
+		x++;
+	}
+	free_ar(coord);
 }

@@ -12,16 +12,17 @@
 
 #ifndef FDF_H
 # define FDF_H
-# include <mlx.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-# include "../libft/libft.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
+# include <libft.h>
+# include <mlx.h>
 
+# define READ_SIZE 10000
 # define WIN_W 1280
 # define WIN_H 720
 # define MLX_ERROR 1
@@ -31,6 +32,13 @@
 # define X 0
 # define Y 1
 # define Z 2
+
+# define READ_ERR "File could not be opened!"
+# define ALLOC_ERR "MALLOC Error detected!"
+# define INVALID_ERR "Invalid Map: Incompatible char detected!"
+# define SIZE_ERR "Invalid Map: Line lenth not consistent!"
+# define MLX_ERR "MLX Error detected!"
+# define ERR	"Error"
 
 /*COLORS*/
 # define WHITE 0xFFFFFF
@@ -56,6 +64,14 @@ typedef struct s_map
 	int		color;	
 }	t_map;
 
+typedef struct s_load
+{
+	char	*map;
+	char	*buf;
+	int		height;
+	int		width;
+}	t_load;
+
 typedef struct s_fdf
 {
 	void	*mlx_ptr;
@@ -73,31 +89,32 @@ typedef struct s_fdf
 	int		check;
 	float	tmpx;
 	float	tmpy;
-	int		width;
-	int		height;
 	int		map_size;
-	char	*content;
-	char	**lines;
-	char	***points;
-	t_map	*map;
+	t_load	tools;
+	t_map	*dots;
 }	t_fdf;
 
 /*Loading Map*/
 void	load_map(char **argv, t_fdf *data);
-char	*next_line_mini(int fd, t_fdf *data);
-void	def_map(t_fdf *data);
-int		getwidth(t_fdf *data);
-void	get_matrix(t_fdf *data);
+void	next_line_mini(int fd, t_fdf *data, t_load *utils);
+void	def_map(t_fdf *data, char *tmp);
+void	get_points(t_map *dots, char *line);
+void	get_matrix(t_fdf *data, t_load *tools);
+
+/*Checking Map*/
+int		valid_char(int c);
+int		is_space(int c);
+void	def_map(t_fdf *data, char *map);
+char	*ft_strnjoin(char const *s1, char const *s2, int len);
 
 /*System Control*/
 int		system_init(t_fdf *data);
 void	system_cmd(t_fdf *data);
 t_fdf	*init_fdf(t_fdf *data);
-int		no_event(void *data);
 
 /*Free Functions*/
-void	ft_error(void *arg, int type, t_fdf *data);
-void	free_struct(t_fdf *data);
+void	ft_error(char *msg, t_fdf *data);
+void	ft_exit(t_fdf *data);
 void	*free_ar(char **ar);
 void	*free_null(void *ptr);
 int		close_fdf(t_fdf *data);
@@ -105,15 +122,25 @@ int		close_fdf(t_fdf *data);
 /*Key and Mouse Bindings*/
 int		key_press(int keysym, t_fdf *data);
 int		key_release(int keysym, t_fdf *data);
-int		mouse_press(int button, t_fdf *data);
 
+/*Draw Map*/
 int		draw_map(t_fdf *data, t_map *map);
-void	isometric(t_map *p, t_fdf *data);
 void	pixel_to_img(t_fdf *data, t_map *map);
 void	draw_line(t_fdf *data, t_map n, t_map m);
-int		render(t_fdf *data);
 int		my_pix_put(t_fdf *data, int x, int y, int z);
 
+/*Draw Menu*/
 void	print_menu(t_fdf *data);
+
+/*Utils*/
+float	ft_max(float a, float b);
+char	*ft_strnjoin(char const *s1, char const *s2, int len);
+void	str_put(t_fdf *data, int x, int y, char *str);
+void	nbr_put(t_fdf *data, int x, int y, int n);
+
+/*Actions*/
+void	motion(t_fdf *data, t_map *map);
+void	position(t_fdf *data, t_map *map);
+void	isometric(t_map *p, t_fdf *data);
 
 #endif
