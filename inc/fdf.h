@@ -33,10 +33,14 @@
 # define Y 1
 # define Z 2
 
+# define EXPLAIN_USAGE "\t*******FDF-USAGE*******\n \
+\tRun Program as follows:\n \
+\t./fdf [*.fdf - file]\n"
 # define READ_ERR "File could not be opened!"
 # define ALLOC_ERR "MALLOC Error detected!"
 # define INVALID_ERR "Invalid Map: Incompatible char detected!"
 # define SIZE_ERR "Invalid Map: Line lenth not consistent!"
+# define SPLIT_ERR "Split Error detected!"
 # define MLX_ERR "MLX Error detected!"
 # define ERR	"Error"
 
@@ -98,7 +102,7 @@ typedef struct s_fdf
 void	load_map(char **argv, t_fdf *data);
 void	next_line_mini(int fd, t_fdf *data, t_load *utils);
 void	def_map(t_fdf *data, char *tmp);
-void	get_points(t_map *dots, char *line);
+int		get_points(t_map *dots, char *line);
 void	get_matrix(t_fdf *data, t_load *tools);
 
 /*Checking Map*/
@@ -137,10 +141,12 @@ float	ft_max(float a, float b);
 char	*ft_strnjoin(char const *s1, char const *s2, int len);
 void	str_put(t_fdf *data, int x, int y, char *str);
 void	nbr_put(t_fdf *data, int x, int y, int n);
+void	mlx_error(char *msg, t_fdf *data);
 
 /*Actions*/
 void	motion(t_fdf *data, t_map *map);
 void	position(t_fdf *data, t_map *map);
 void	isometric(t_map *p, t_fdf *data);
+void	isometric2(t_fdf *data, t_map *p);
 
 #endif

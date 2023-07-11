@@ -36,8 +36,8 @@ void	draw_line(t_fdf *data, t_map p1, t_map p2)
 	float		x_diff;
 	float		y_diff;
 
-	isometric(&p1, data);
-	isometric(&p2, data);
+	// isometric(&p1, data);
+	// isometric(&p2, data);
 	x_diff = p2.new[X] - p1.new[X];
 	y_diff = p2.new[Y] - p1.new[Y];
 	max = ft_max(fabs(x_diff), fabs(y_diff));
@@ -104,7 +104,10 @@ int	draw_map(t_fdf *data, t_map *map)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img);
 		data->img = mlx_new_image(data->mlx_ptr, WIN_W, WIN_H);
+		if (!data->img)
+			mlx_error(MLX_ERR, data);
 		background(data);
+		isometric2(data, map);
 		motion(data, map);
 		position(data, map);
 		pixel_to_img(data, map);

@@ -19,14 +19,14 @@ int	system_init(t_fdf *data)
 		ft_error(MLX_ERR, data);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_W, WIN_H, "rpinchas-FdF");
 	if (!data->win_ptr)
-	{
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-		ft_error(MLX_ERR, data);
-	}
+		mlx_error(MLX_ERR, data);
 	data->img = mlx_new_image(data->mlx_ptr, WIN_W, WIN_H);
+	if (!data->img)
+		mlx_error(MLX_ERR, data);
 	data->buf = mlx_get_data_addr(data->img, \
 		&data->bpp, &data->lsize, &data->endian);
+	if (!data->buf)
+		mlx_error(MLX_ERR, data);
 	system_cmd(data);
 	return (0);
 }
@@ -46,10 +46,10 @@ t_fdf	*init_fdf(t_fdf *data)
 	if (!data)
 		ft_error(ALLOC_ERR, NULL);
 	data->scale = 10;
-	data->angle = 0.8;
-	data->x_offset = 0;
-	data->y_offset = 0;
-	data->z_offset = 1;
+	data->angle = 0.5;
+	data->x_offset = 10;
+	data->y_offset = 10;
+	data->z_offset = 10;
 	data->map_size = 0;
 	data->tools.width = 0;
 	data->tools.height = 0;

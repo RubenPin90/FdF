@@ -75,14 +75,18 @@ void	get_matrix(t_fdf *data, t_load *tools)
 		{
 			tmp = ft_substr(tools->map, start, i - start);
 			start = i + 1;
-			get_points(data->dots, tmp);
+			if(get_points(data->dots, tmp))
+			{
+				free(tmp);
+				ft_error(SPLIT_ERR, data);
+			}
 			free(tmp);
 		}
 		i++;
 	}
 }
 
-void	get_points(t_map *dots, char *line)
+int	get_points(t_map *dots, char *line)
 {
 	int			x;
 	char		**coord;
@@ -92,6 +96,8 @@ void	get_points(t_map *dots, char *line)
 	y++;
 	x = 0;
 	coord = ft_split(line, ' ');
+	if (!coord)
+		return (1);
 	while (coord[x])
 	{
 		dots[index].x = x;
@@ -101,4 +107,5 @@ void	get_points(t_map *dots, char *line)
 		x++;
 	}
 	free_ar(coord);
+	return (0);
 }

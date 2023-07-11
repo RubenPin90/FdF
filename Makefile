@@ -53,21 +53,6 @@ LIBX := -L/usr/lib -lXext -lX11 -lm
 LIBFT := -L./${LDIR_FT} -lft
 LIBS := ${LIBMLX} ${LIBX} ${LIBFT}
 
-# Define the directories for the header files and libraries
-#HEADER_DIR =
-#LIB_DIR =
-
-# Check if mlx.h is installed and set the appropriate include flag
-# ifeq ($(shell test -f /usr/include/X11/mlx.h && echo 1),1)
-# 	HEADER_DIR = /usr/include/X11
-# 	LIB_DIR = /usr/lib/X11
-# else
-# 	HEADER_DIR = ./minilibx-linux
-# 	LIB_DIR = ./minilibx-linux
-# endif
-# LHEAD = -I${HEADER_DIR}
-# LIB = -L${LIB_DIR}
-
 #RULES
 all: ${NAME}
 

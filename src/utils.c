@@ -54,3 +54,14 @@ void	nbr_put(t_fdf *data, int x, int y, int n)
 	mlx_string_put(data->mlx_ptr, data->win_ptr, x, y, FONT_CLR, tmp);
 	free (tmp);
 }
+
+void	mlx_error(char *msg, t_fdf *data)
+{
+	if (data->img)
+		mlx_destroy_image(data->mlx_ptr, data->img);
+	if (data->win_ptr)
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
+	ft_error(msg, data);
+}

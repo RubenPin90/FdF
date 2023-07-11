@@ -14,9 +14,9 @@
 
 static void	zoom(int keysym, t_fdf *data)
 {
-	if (keysym == XK_plus)
+	if (keysym == 43)
 		data->scale *= 1.2;
-	if (keysym == XK_minus && data->scale > 0.9)
+	if (keysym == 45 && data->scale > 0.9)
 		data->scale /= 1.2;
 }
 
@@ -40,14 +40,14 @@ int	key_press(int keysym, t_fdf *data)
 	move(keysym, data);
 	draw_map(data, data->dots);
 	return (0);
-}
+}	
 
 int	key_release(int keysym, t_fdf *data)
 {
 	if (keysym == XK_a)
-		data->z_offset *= 2;
+		data->z_offset *= 1.2;
 	if (keysym == XK_s)
-		data->z_offset /= 2;
+		data->z_offset /= 1.2;
 	draw_map(data, data->dots);
 	return (0);
 }

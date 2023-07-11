@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	data = NULL;
 	if (argc != 2)
-		return (1);
+		ft_error(EXPLAIN_USAGE, NULL);
 	data = init_fdf(data);
 	load_map(argv, data);
 	system_init(data);
