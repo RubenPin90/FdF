@@ -34,66 +34,69 @@ SRC_F := main.c \
 	utils.c \
 	exit.c
 SRCDIR := src
-SRC := 	${addprefix ${SRCDIR}/, ${SRC_F}}
+SRC := 	$(addprefix $(SRCDIR)/, $(SRC_F))
 
 #OBJ FILES
-OBJ_F :=  ${SRC_F:%.c=%.o}
+OBJ_F :=  $(SRC_F:%.c=%.o)
 OBJDIR := obj
-OBJ :=	${addprefix ${OBJDIR}/, ${OBJ_F}}
+OBJ :=	$(addprefix $(OBJDIR)/, $(OBJ_F))
 
 #LIBRARIES
 ##Directories
 LDIR := lib
-LDIR_FT := ${LDIR}/libft
-LDIR_MLX := ${LDIR}/mlx_linux
+LDIR_FT := $(LDIR)/libft
+LDIR_MLX := $(LDIR)/mlx_linux
+LFTA = $(LDIR_FT)/libft.a
+LMLX = $(LDIR_MLX)/libmlx_Linux.a
 ##Linking Libraries
-INC := -I./inc -I./${LDIR_FT} -I./${LDIR_MLX} -I/usr/include
-LIBMLX := -L./${LDIR_MLX} -lmlx_Linux
+INC := -I./inc -I./$(LDIR_FT) -I./$(LDIR_MLX) -I/usr/include
+LIBMLX := -L./$(LDIR_MLX) -lmlx_Linux
 LIBX := -L/usr/lib -lXext -lX11 -lm
-LIBFT := -L./${LDIR_FT} -lft
-LIBS := ${LIBMLX} ${LIBX} ${LIBFT}
+LIBFT := -L./$(LDIR_FT) -lft
+LIBS := $(LIBMLX) $(LIBX) $(LIBFT)
 
 #RULES
-all: ${NAME}
+all: $(LFTA) $(LMLX) $(NAME)
 
-${NAME}: libs ${OBJ}
-	@echo "${YELLOW}Compiling...${RESET}"
-	${CC} ${CFLAGS} ${INC} ${OBJ} ${LIBS} -o $@
-	@echo "${GREEN}Run Code${RESET}"
+$(NAME): $(OBJ)
+	@echo "$(YELLOW)Compiling...$(RESET)"
+	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBS) -o $@
+	@echo "$(GREEN)Run Code$(RESET)"
 
-${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
-	${CC} ${CFLAG} ${INC} -c $< -o $@
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CFLAG) $(INC) -c $< -o $@
 
-libs:
-	@make -sC ${LDIR_FT}
-	@if [ ! -d ${LDIR_MLX} ]; then \
+$(LFTA):
+	@echo "$(YELLOW)Compiling libft...$(RESET)"
+	@make -sC $(LDIR_FT)
+
+$(LMLX):
+	@if [ ! -d $(LDIR_MLX) ]; then \
 		git clone https://github.com/42Paris/minilibx-linux.git lib/mlx_linux; fi
-	@make -sC ${LDIR_MLX} 
-
-obj_check: 
-	@echo "${BLUE}Making object files...${RESET}"
-	@mkdir -p ${OBJDIR}
+	@echo "$(YELLOW)Compiling MLX...$(RESET)"
+	@make -sC $(LDIR_MLX)
 
 clean:
-	@echo "${GREEN}Removing object files...${RESET}"
-	@rm -f ${OBJ}
-	@rm -rf ${OBJDIR}
-	@make -sC ${LDIR_FT} clean
-	@make -sC ${LDIR_MLX} clean
-	@echo "${BLUE}DONE!${RESET}"
+	@echo "$(GREEN)Removing object files...$(RESET)"
+	@rm -f $(OBJ)
+	@rm -rf $(OBJDIR)
+	@make -sC $(LDIR_FT) clean
+	@make -sC $(LDIR_MLX) clean
+	@echo "$(BLUE)DONE!$(RESET)"
 
 fclean: clean tclean
-	@echo "${GREEN}Removing executables...${RESET}"
-	@rm	-rf ${NAME}
-	@make -C ${LDIR_FT} fclean -s
-	@rm -rf ${LDIR_MLX}
-	@echo "${BLUE}DONE!${RESET}"
+	@echo "$(GREEN)Removing executables...$(RESET)"
+	@rm	-rf $(NAME)
+	@make -C $(LDIR_FT) fclean -s
+	@rm -rf $(LDIR_MLX)
+	@echo "$(BLUE)DONE!$(RESET)"
 
 re: fclean all
 
 tclean:
-	@echo "${GREEN}Removing testfiles...${RESET}"
-	@rm -f ${FILE}
-	@echo "${BLUE}DONE!${RESET}"
+	@echo "$(GREEN)Removing testfiles...$(RESET)"
+	@rm -f $(FILE)
+	@echo "$(BLUE)DONE!$(RESET)"
 
-.PHONY: all clean fclean re libs obj_check
+.PHONY: all clean fclean re
