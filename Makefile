@@ -66,6 +66,8 @@ ${OBJDIR}/%.o: ${SRCDIR}/%.c obj_check
 
 libs:
 	@make -sC ${LDIR_FT}
+	@if [ ! -d ${LDIR_MLX} ]; then \
+		git clone https://github.com/42Paris/minilibx-linux.git lib/mlx_linux; fi
 	@make -sC ${LDIR_MLX} 
 
 obj_check: 
@@ -84,6 +86,7 @@ fclean: clean tclean
 	@echo "${GREEN}Removing executables...${RESET}"
 	@rm	-rf ${NAME}
 	@make -C ${LDIR_FT} fclean -s
+	@rm -rf ${LDIR_MLX}
 	@echo "${BLUE}DONE!${RESET}"
 
 re: fclean all
@@ -93,4 +96,4 @@ tclean:
 	@rm -f ${FILE}
 	@echo "${BLUE}DONE!${RESET}"
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libs obj_check
