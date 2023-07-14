@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/07/14 10:02:27 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/07/14 13:44:11 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,18 +85,17 @@ clean:
 	@make -sC $(LDIR_MLX) clean
 	@echo "$(BLUE)DONE!$(RESET)"
 
-fclean: clean tclean
+fclean: clean
 	@echo "$(GREEN)Removing executables...$(RESET)"
 	@rm	-rf $(NAME)
 	@make -C $(LDIR_FT) fclean -s
-	@rm -rf $(LDIR_MLX)
 	@echo "$(BLUE)DONE!$(RESET)"
 
 re: fclean all
 
-tclean:
-	@echo "$(GREEN)Removing testfiles...$(RESET)"
-	@rm -f $(FILE)
+mlxclean:
+	@echo "$(GREEN)Removing mlx lib...$(RESET)"
+	@rm -rf $(LDIR_MLX)
 	@echo "$(BLUE)DONE!$(RESET)"
 
 norm:
@@ -104,4 +103,4 @@ norm:
 	@norminette $(LDIR_FT)
 	@norminette inc
 
-.PHONY: all clean fclean re tclean norm
+.PHONY: all clean fclean re mlxclean norm
