@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/07/14 13:44:11 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/07/14 13:49:49 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,8 @@ clean:
 	@rm -f $(OBJ)
 	@rm -rf $(OBJDIR)
 	@make -sC $(LDIR_FT) clean
-	@make -sC $(LDIR_MLX) clean
+	@if [ -d $(LDIR_MLX) ]; then \
+		make -sC $(LDIR_MLX) clean; fi
 	@echo "$(BLUE)DONE!$(RESET)"
 
 fclean: clean
@@ -93,7 +94,7 @@ fclean: clean
 
 re: fclean all
 
-mlxclean:
+mlxclean: fclean
 	@echo "$(GREEN)Removing mlx lib...$(RESET)"
 	@rm -rf $(LDIR_MLX)
 	@echo "$(BLUE)DONE!$(RESET)"
