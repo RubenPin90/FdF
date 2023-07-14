@@ -6,7 +6,7 @@
 #    By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 16:58:54 by rpinchas          #+#    #+#              #
-#    Updated: 2023/07/11 04:11:21 by rpinchas         ###   ########.fr        #
+#    Updated: 2023/07/14 10:02:27 by rpinchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,4 +99,9 @@ tclean:
 	@rm -f $(FILE)
 	@echo "$(BLUE)DONE!$(RESET)"
 
-.PHONY: all clean fclean re
+norm:
+	@norminette $(SRC)
+	@norminette $(LDIR_FT)
+	@norminette inc
+
+.PHONY: all clean fclean re tclean norm

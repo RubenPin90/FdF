@@ -6,7 +6,7 @@
 /*   By: rpinchas <rpinchas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:57:48 by rpinchas          #+#    #+#             */
-/*   Updated: 2023/07/12 12:57:52 by rpinchas         ###   ########.fr       */
+/*   Updated: 2023/07/14 10:04:21 by rpinchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@
 # define EXPLAIN_USAGE "\t*******FDF-USAGE*******\n \
 \tRun Program as follows:\n \
 \t./fdf [*.fdf - file]\n"
-# define READ_ERR "File could not be opened!"
-# define ALLOC_ERR "MALLOC Error detected!"
-# define INVALID_ERR "Invalid Map: Incompatible char detected!"
-# define SIZE_ERR "Invalid Map: Line lenth not consistent!"
-# define SPLIT_ERR "Split Error detected!"
-# define MLX_ERR "MLX Error detected!"
-# define ERR	"Error"
+# define READ_ERR "File could not be opened!\n"
+# define ALLOC_ERR "MALLOC Error detected!\n"
+# define INVALID_ERR "Invalid Map: Incompatible char detected!\n"
+# define SIZE_ERR "Invalid Map: Line lenth not consistent!\n"
+# define SPLIT_ERR "Split Error detected!\n"
+# define MLX_ERR "MLX Error detected!\n"
+# define ERR	"Error\n"
 
 /*COLORS*/
 # define WHITE 0xFFFFFF
